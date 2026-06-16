@@ -13,9 +13,12 @@ export const CartProvider = ({ children }) => {
       if (token) {
         try {
           // Show the bouncer our ticket to get our items!
-          const response = await axios.get("http://localhost:5000/api/cart", {
-            headers: { Authorization: `Bearer ${token}` },
-          });
+          const response = await axios.get(
+            `${import.meta.env.VITE_API_URL}/api/cart`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            },
+          );
           setCart(response.data);
         } catch (error) {
           console.error("Error fetching cloud cart:", error);
@@ -31,7 +34,7 @@ export const CartProvider = ({ children }) => {
     if (token) {
       try {
         await axios.post(
-          "http://localhost:5000/api/cart",
+          `${import.meta.env.VITE_API_URL}/api/cart`,
           { cart: newCart },
           {
             headers: { Authorization: `Bearer ${token}` },
