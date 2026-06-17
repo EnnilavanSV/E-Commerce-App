@@ -7,6 +7,9 @@ export default function AdminDashboard() {
   const { user, token } = useContext(AuthContext);
   const navigate = useNavigate();
 
+  const [dashboardProducts, setDashboardProducts] = useState([]);
+  const [userCount, setUserCount] = useState(0);
+
   // If a normal user somehow types /admin in the URL, kick them out immediately!
   if (!user || !user.isAdmin) {
     return (
@@ -24,6 +27,33 @@ export default function AdminDashboard() {
       </div>
     );
   }
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        // Fetch all products to count them
+        const productRes = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/products`,
+        );
+        setDashboardProducts(productRes.data);
+
+        // Fetch all users to count them (Requires your backend token)
+        const userRes = await axios.get(
+          `${import.meta.env.VITE_API_URL}/api/users`,
+          {
+            headers: { Authorization: `Bearer ${token}` },
+          },
+        );
+        setUserCount(userRes.data.length);
+      } catch (error) {
+        console.error("Failed to load dashboard metrics", error);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -69,8 +99,36 @@ export default function AdminDashboard() {
     }
   };
 
+  const availableCount = dashboardProducts.filter(
+    (p) => p.inStock !== false,
+  ).length;
+
   return (
-    <div className="max-w-2xl mx-auto px-4 py-12 min-h-screen">
+    <div className="max-w-4xl mx-auto px-4 py-12 min-h-screen">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+          <h3 className="text-gray-500 font-bold mb-1 text-xs uppercase tracking-wider">
+            Total Products
+          </h3>
+          <p className="text-4xl font-black text-gray-900">
+            {dashboardProducts.length}
+          </p>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+          <h3 className="text-gray-500 font-bold mb-1 text-xs uppercase tracking-wider">
+            Available (In Stock)
+          </h3>
+          <p className="text-4xl font-black text-green-600">{availableCount}</p>
+        </div>
+
+        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+          <h3 className="text-gray-500 font-bold mb-1 text-xs uppercase tracking-wider">
+            Registered Users
+          </h3>
+          <p className="text-4xl font-black text-indigo-600">{userCount}</p>
+        </div>
+      </div>
       <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
         <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
           Admin Command Center
