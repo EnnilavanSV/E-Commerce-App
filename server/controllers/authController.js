@@ -86,6 +86,18 @@ export const loginUser = async (req, res) => {
   }
 };
 
+// Fetch all registered users for the admin dashboard
+export const getAllUsers = async (req, res) => {
+  try {
+    // Find all users, but exclude their passwords for security!
+    const users = await User.find({}).select("-password");
+    res.status(200).json(users);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error fetching users" });
+  }
+};
+
 export const requestOTP = async (req, res) => {
   console.log(
     "➡️ 1. Backend received request for phone:",
@@ -101,7 +113,7 @@ export const requestOTP = async (req, res) => {
 
   try {
     const otp = generateOTP();
-    otpCache.set(phoneNumber, { otp , timestamp: Date.now() });
+    otpCache.set(phoneNumber, { otp, timestamp: Date.now() });
 
     await sendMockSMS(phoneNumber, otp);
 
