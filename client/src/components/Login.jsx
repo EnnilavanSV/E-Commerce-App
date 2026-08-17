@@ -70,11 +70,11 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full space-y-8 bg-white p-10 rounded-2xl shadow-xl border border-gray-100">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 py-8 sm:py-12 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-md w-full space-y-8 bg-white p-6 sm:p-10 rounded-2xl shadow-xl border border-gray-100">
         {/* Header Section */}
         <div>
-          <h2 className="mt-2 text-center text-3xl font-extrabold text-gray-900 tracking-tight">
+          <h2 className="mt-2 text-center text-2xl sm:text-3xl font-extrabold text-gray-900 tracking-tight">
             Welcome back
           </h2>
           <p className="mt-2 text-center text-sm text-gray-500">
@@ -200,7 +200,7 @@ const Login = () => {
                       value={otpCode}
                       onChange={(e) => setOtpCode(e.target.value)}
                       required
-                      className="w-full border border-gray-300 rounded-lg p-3 text-center tracking-[0.5em] text-2xl font-bold"
+                      className="w-full border border-gray-300 rounded-lg p-3 text-center tracking-[0.3em] sm:tracking-[0.5em] text-xl sm:text-2xl font-bold"
                       placeholder="123456"
                     />
                   </div>

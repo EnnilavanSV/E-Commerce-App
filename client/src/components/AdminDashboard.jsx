@@ -13,7 +13,7 @@ export default function AdminDashboard() {
   // If a normal user somehow types /admin in the URL, kick them out immediately!
   if (!user || !user.isAdmin) {
     return (
-      <div className="min-h-screen flex flex-col justify-center items-center">
+      <div className="min-h-screen flex flex-col justify-center items-center px-4 text-center">
         <h1 className="text-3xl font-bold text-red-600 mb-4">403 Forbidden</h1>
         <p className="text-gray-600">
           You do not have permission to view this page.
@@ -104,33 +104,37 @@ export default function AdminDashboard() {
   ).length;
 
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 min-h-screen">
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+    <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12 min-h-screen">
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6 mb-8 sm:mb-12">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
           <h3 className="text-gray-500 font-bold mb-1 text-xs uppercase tracking-wider">
             Total Products
           </h3>
-          <p className="text-4xl font-black text-gray-900">
+          <p className="text-3xl sm:text-4xl font-black text-gray-900">
             {dashboardProducts.length}
           </p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
           <h3 className="text-gray-500 font-bold mb-1 text-xs uppercase tracking-wider">
             Available (In Stock)
           </h3>
-          <p className="text-4xl font-black text-green-600">{availableCount}</p>
+          <p className="text-3xl sm:text-4xl font-black text-green-600">
+            {availableCount}
+          </p>
         </div>
 
-        <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-200">
+        <div className="bg-white p-4 sm:p-6 rounded-2xl shadow-sm border border-gray-200">
           <h3 className="text-gray-500 font-bold mb-1 text-xs uppercase tracking-wider">
             Registered Users
           </h3>
-          <p className="text-4xl font-black text-indigo-600">{userCount}</p>
+          <p className="text-3xl sm:text-4xl font-black text-indigo-600">
+            {userCount}
+          </p>
         </div>
       </div>
-      <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-8">
-        <h1 className="text-3xl font-extrabold text-gray-900 mb-2">
+      <div className="bg-white rounded-2xl shadow-xl border border-gray-200 p-5 sm:p-8">
+        <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
           Admin Command Center
         </h1>
         <p className="text-gray-500 mb-8">
@@ -162,7 +166,7 @@ export default function AdminDashboard() {
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Price ($)
+                Price (₹)
               </label>
               <input
                 type="number"

@@ -111,10 +111,10 @@ const Cart = () => {
 
   if (cart.length === 0) {
     return (
-      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50">
+      <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4 text-center">
         {/*  Show warnings if items were removed  */}
         {cartNotices.length > 0 && (
-          <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl mb-6">
+          <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 p-4 rounded-xl mb-6 text-left">
             <p className="font-bold mb-2">Cart Updates:</p>
             <ul className="list-disc pl-5 space-y-1 text-sm">
               {cartNotices.map((notice, i) => (
@@ -136,30 +136,33 @@ const Cart = () => {
     );
   }
   return (
-    <div className="max-w-4xl mx-auto px-4 py-12 sm:px-6 lg:px-8 min-h-screen">
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
+    <div className="max-w-4xl mx-auto px-4 py-8 sm:py-12 sm:px-6 lg:px-8 min-h-screen">
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 sm:mb-8">
         Shopping Cart
       </h1>
 
       <div className="bg-white shadow-sm rounded-lg overflow-hidden border border-gray-200">
         <ul className="divide-y divide-gray-200">
           {cart.map((item) => (
-            <li key={item._id} className="p-6 flex items-center sm:p-8">
+            <li
+              key={item._id}
+              className="p-4 sm:p-6 md:p-8 flex items-center"
+            >
               {/* Product Image */}
               <img
                 src={item.image}
                 alt={item.name}
-                className="w-24 h-24 rounded-md object-cover object-center sm:w-32 sm:h-32"
+                className="w-16 h-16 sm:w-24 sm:h-24 md:w-32 md:h-32 rounded-md object-cover object-center shrink-0"
               />
 
               {/* Product Info */}
-              <div className="ml-4 flex-1 flex flex-col sm:ml-6">
-                <div className="flex justify-between">
-                  <h4 className="text-lg font-medium text-gray-900">
+              <div className="ml-3 sm:ml-4 md:ml-6 flex-1 min-w-0 flex flex-col">
+                <div className="flex justify-between items-start gap-2 flex-wrap">
+                  <h4 className="text-base sm:text-lg font-medium text-gray-900 break-words">
                     {item.name}
                   </h4>
-                  <p className="text-lg font-medium text-gray-900">
-                    ${(item.price * item.quantity).toFixed(2)}
+                  <p className="text-base sm:text-lg font-medium text-gray-900 whitespace-nowrap">
+                    ₹{(item.price * item.quantity).toFixed(2)}
                   </p>
                 </div>
                 <p className="mt-1 text-sm text-gray-500">{item.category}</p>
@@ -180,10 +183,10 @@ const Cart = () => {
         </ul>
 
         {/* Checkout Footer */}
-        <div className="border-t border-gray-200 p-6 sm:p-8 bg-gray-50">
-          <div className="flex justify-between text-xl font-medium text-gray-900 mb-4">
+        <div className="border-t border-gray-200 p-4 sm:p-6 md:p-8 bg-gray-50">
+          <div className="flex justify-between text-lg sm:text-xl font-medium text-gray-900 mb-4">
             <p>Subtotal</p>
-            <p>${cartTotal.toFixed(2)}</p>
+            <p>₹{cartTotal.toFixed(2)}</p>
           </div>
           <p className="text-sm text-gray-500 mb-6">
             Shipping and taxes calculated at checkout.

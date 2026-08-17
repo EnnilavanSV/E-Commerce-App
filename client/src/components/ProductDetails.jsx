@@ -107,18 +107,18 @@ const ProductDetails = () => {
     );
   }
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-16">
       {/* Back Button */}
       <Link
         to="/"
-        className="text-indigo-600 hover:text-indigo-800 font-medium mb-8 inline-block"
+        className="text-indigo-600 hover:text-indigo-800 font-medium mb-6 sm:mb-8 inline-block"
       >
         &larr; Back to Catalog
       </Link>
 
       <div className="bg-white rounded-2xl shadow-xl overflow-hidden flex flex-col md:flex-row">
         {/* Left Side: Giant Image */}
-        <div className="md:w-1/2 h-96 md:h-auto relative bg-gray-100">
+        <div className="md:w-1/2 h-64 sm:h-80 md:h-auto relative bg-gray-100">
           <img
             src={product.image}
             alt={product.name}
@@ -128,9 +128,9 @@ const ProductDetails = () => {
 
         {/* Right Side: Product Info */}
 
-        <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
+        <div className="md:w-1/2 p-5 sm:p-8 md:p-12 flex flex-col justify-center">
           {isEditing ? (
-            <div className="space-y-4 bg-yellow-50 p-6 rounded-xl border border-yellow-200">
+            <div className="space-y-4 bg-yellow-50 p-4 sm:p-6 rounded-xl border border-yellow-200">
               <h3 className="text-sm font-bold text-yellow-600 mb-4 uppercase tracking-wider">
                 Admin Edit Mode
               </h3>
@@ -140,7 +140,7 @@ const ProductDetails = () => {
                 name="name"
                 value={editForm.name}
                 onChange={handleEditChange}
-                className="w-full text-3xl font-extrabold border-gray-300 rounded p-2"
+                className="w-full text-2xl sm:text-3xl font-extrabold border-gray-300 rounded p-2"
               />
 
               <input
@@ -148,7 +148,7 @@ const ProductDetails = () => {
                 name="price"
                 value={editForm.price}
                 onChange={handleEditChange}
-                className="w-full text-2xl border-gray-300 rounded p-2"
+                className="w-full text-xl sm:text-2xl border-gray-300 rounded p-2"
               />
 
               <textarea
@@ -174,7 +174,7 @@ const ProductDetails = () => {
               </label>
 
               {/* SAVE / CANCEL BUTTONS */}
-              <div className="flex space-x-4 pt-4">
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
                 <button
                   onClick={handleSaveEdit}
                   className="flex-1 bg-green-600 hover:bg-green-700 text-white font-bold py-3 rounded-lg transition-colors"
@@ -190,11 +190,11 @@ const ProductDetails = () => {
               </div>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-5 sm:space-y-6">
               <p className="text-sm font-bold text-indigo-600 uppercase tracking-widest mb-2">
                 {product.category}
               </p>
-              <h1 className="text-3xl md:text-4xl font-extrabold text-gray-900 mb-4">
+              <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-gray-900 mb-4 break-words">
                 {product.name}
               </h1>
               {/* DISPLAY STOCK STATUS */}
@@ -207,8 +207,8 @@ const ProductDetails = () => {
                   Out of Stock
                 </span>
               )}
-              <p className="text-2xl font-bold text-gray-900 mb-6">
-                ${product.price.toFixed(2)}
+              <p className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
+                ₹{product.price.toFixed(2)}
               </p>
 
               <div className="border-t border-gray-200 pt-6 mb-8">
@@ -227,7 +227,7 @@ const ProductDetails = () => {
                 Add to Cart
               </button>
               {user?.isAdmin && (
-                <div className="flex space-x-4 mt-6 pt-6 border-t">
+                <div className="flex flex-col sm:flex-row gap-4 mt-6 pt-6 border-t">
                   <button
                     onClick={handleEditClick}
                     className="flex-1 bg-indigo-100 hover:bg-indigo-600 text-indigo-700 hover:text-white py-3 rounded-xl font-bold transition-colors border border-indigo-200 hover:border-transparent"
@@ -236,7 +236,7 @@ const ProductDetails = () => {
                   </button>
                   <button
                     onClick={handleDelete}
-                    className="w-full mt-4 bg-red-100 hover:bg-red-600 text-red-600 hover:text-white py-3 rounded-xl font-bold text-md transition-colors border border-red-200 hover:border-transparent"
+                    className="flex-1 bg-red-100 hover:bg-red-600 text-red-600 hover:text-white py-3 rounded-xl font-bold text-md transition-colors border border-red-200 hover:border-transparent"
                   >
                     Delete Product (Admin)
                   </button>

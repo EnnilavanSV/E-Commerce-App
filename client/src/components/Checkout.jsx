@@ -30,9 +30,12 @@ const Checkout = () => {
     e.preventDefault();
     if (!cartTotal || cartTotal <= 0) return;
 
+    setIsProcessing(true);
+
     const isLoaded = await loadRazorpayScript();
     if (!isLoaded) {
       alert("Razorpay failed to load. Are you online?");
+      setIsProcessing(false);
       return;
     }
 
@@ -66,10 +69,25 @@ const Checkout = () => {
                 razorpay_signature: response.razorpay_signature,
               },
             );
+            // Payment verified — this was missing before, so the page just
+            // sat on the checkout form after a successful payment.
+            clearCart();
+            setIsSuccess(true);
           } catch (err) {
             alert("Payment verification failed on the server.");
+          } finally {
+            setIsProcessing(false);
           }
         },
+
+        // If the user closes the Razorpay popup without paying, don't leave
+        // the button stuck showing "Processing...".
+        modal: {
+          ondismiss: function () {
+            setIsProcessing(false);
+          },
+        },
+
         theme: {
           color: "#4f46e5",
         },
@@ -81,16 +99,17 @@ const Checkout = () => {
     } catch (error) {
       console.error("Payment initialization failed", error);
       alert("Could not start payment.");
+      setIsProcessing(false);
     }
   };
 
   if (isSuccess) {
     return (
       <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 px-4">
-        <div className="bg-white p-10 rounded-2xl shadow-xl text-center max-w-md w-full">
-          <div className="w-20 h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
+        <div className="bg-white p-6 sm:p-10 rounded-2xl shadow-xl text-center max-w-md w-full">
+          <div className="w-16 h-16 sm:w-20 sm:h-20 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
             <svg
-              className="w-10 h-10 text-green-500"
+              className="w-8 h-8 sm:w-10 sm:h-10 text-green-500"
               fill="none"
               stroke="currentColor"
               viewBox="0 0 24 24"
@@ -103,7 +122,7 @@ const Checkout = () => {
               ></path>
             </svg>
           </div>
-          <h2 className="text-3xl font-extrabold text-gray-900 mb-2">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-2">
             Order Confirmed!
           </h2>
           <p className="text-gray-500 mb-8">
@@ -121,18 +140,18 @@ const Checkout = () => {
   }
 
   return (
-    <div className="max-w-3xl mx-auto px-4 py-12 sm:px-6 lg:px-8 min-h-screen">
-      <h1 className="text-3xl font-extrabold text-gray-900 mb-8">
+    <div className="max-w-3xl mx-auto px-4 py-8 sm:py-12 sm:px-6 lg:px-8 min-h-screen">
+      <h1 className="text-2xl sm:text-3xl font-extrabold text-gray-900 mb-6 sm:mb-8">
         Secure Checkout
       </h1>
 
-      <div className="bg-white shadow-sm rounded-2xl overflow-hidden border border-gray-200 p-8">
-        <div className="mb-8 pb-8 border-b border-gray-200 flex justify-between items-center">
-          <h2 className="text-xl font-bold text-gray-900">
+      <div className="bg-white shadow-sm rounded-2xl overflow-hidden border border-gray-200 p-5 sm:p-8">
+        <div className="mb-6 sm:mb-8 pb-6 sm:pb-8 border-b border-gray-200 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+          <h2 className="text-lg sm:text-xl font-bold text-gray-900">
             Total Amount to Pay:
           </h2>
-          <span className="text-3xl font-extrabold text-indigo-600">
-            ${cartTotal.toFixed(2)}
+          <span className="text-2xl sm:text-3xl font-extrabold text-indigo-600">
+            ₹{cartTotal.toFixed(2)}
           </span>
         </div>
 
@@ -172,9 +191,10 @@ const Checkout = () => {
 
           <button
             type="submit"
-            className="w-full bg-gray-900 hover:bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-md disabled:bg-gray-400 mt-8"
+            disabled={isProcessing}
+            className="w-full bg-gray-900 hover:bg-indigo-600 text-white py-4 rounded-xl font-bold text-lg transition-colors shadow-md disabled:bg-gray-400 disabled:cursor-not-allowed mt-8"
           >
-            place Order
+            {isProcessing ? "Processing..." : "place Order"}
           </button>
         </form>
       </div>
